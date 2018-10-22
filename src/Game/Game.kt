@@ -56,7 +56,7 @@ class Game<T>(val narrator: T,
         if(direKill){
             radiantTeam!!.towers.removeAt(0)
         }else{
-            radiantTeam!!.towers.removeAt(0)
+            direTeam!!.towers.removeAt(0)
         }
         val answer = narratePhrase(narrator, "killTower")
         return answer
@@ -66,10 +66,11 @@ class Game<T>(val narrator: T,
             radiantTeam!!.ancient.isDead = true
             winIndicator = 0
             return narratePhrase(narrator,"direWins")
+        }else {
+            direTeam!!.ancient.isDead = true
+            winIndicator = 1
+            return narratePhrase(narrator, "radiantWins")
         }
-        direTeam!!.ancient.isDead = true
-        winIndicator = 1
-        return narratePhrase(narrator,"radiantWins")
 
     }
 

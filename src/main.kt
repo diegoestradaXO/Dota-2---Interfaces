@@ -43,6 +43,9 @@ fun main(args: Array<String>) {
     //Creando elementos basicos del juego
     val radiantHeroes = ArrayList<Hero>()
     val direHeroes = ArrayList<Hero>()
+    val myNarrator = StanLee()
+    val myGame = Game<Narrator>(myNarrator, null,null,2)
+    println(myGame.welcome())
     //Proceso de seleccion
     var direSelecting = false
     do {
@@ -53,6 +56,7 @@ fun main(args: Array<String>) {
             val indexOfHeroSelected = readLine()!!.toInt() - 1
             direHeroes.add(availableHeroes[indexOfHeroSelected])
             availableHeroes.removeAt(indexOfHeroSelected)
+            direSelecting = !direSelecting
         }
         if (!direSelecting){
             println("Seleccion de Heroes Radiant--------")
@@ -61,14 +65,15 @@ fun main(args: Array<String>) {
             val indexOfHeroSelected = readLine()!!.toInt() - 1
             radiantHeroes.add(availableHeroes[indexOfHeroSelected])
             availableHeroes.removeAt(indexOfHeroSelected)
+            direSelecting = !direSelecting
         }
 
-    }while(availableHeroes.size > 10)
+    }while(availableHeroes.size != 11)
     //Creacion de los equipos y agregacion al juego
-    val myNarrator = StanLee()
     val direTeam = Team(direHeroes)
     val radiantTeam = Team(radiantHeroes)
-    val myGame = Game<Narrator>(myNarrator, radiantTeam,direTeam,2)
+    myGame.direTeam = direTeam
+    myGame.radiantTeam = radiantTeam
     //Empezar el ciclo principal del juego
     var hasTowersAlive = true
     do {
@@ -118,7 +123,7 @@ fun main(args: Array<String>) {
                 val answer = readLine()!!.toString()
                 if(answer == "si"){
                     //Verificar que aun existan torres en el arraylist
-                    if(myGame.direTeam!!.towers.isEmpty() == false){
+                    if(myGame.direTeam!!.towers.size > 0){
                         println(myGame.killTower(false))
                     }else{
                         println("Ya no quedan torres en este equipo!")
